@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>농림축산식품부 알기 쉬운 대국민 포털 | 국민 밥상과 미래 농업</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'sans-serif'],
+          },
+          colors: {
+            // 따뜻하고 싱그러운 연두색(Lime / Light Green) 테마
+            limeTheme: {
+              50: '#f7fee7',
+              100: '#ecfccb',
+              200: '#d9f99d',
+              300: '#bef264',
+              400: '#a3e635',
+              500: '#84cc16', // 메인 포인트 연두
+              600: '#65a30d',
+              700: '#4d7c0f',
+              800: '#3f6212',
+              900: '#365314',
+              accent: '#84cc16',
+            },
+            // 밤에도 눈이 편안한 딥 다크 톤 (올리브/차콜 블렌딩)
+            night: {
+              bg: '#0c110b',        // 최하단 캔버스
+              card: '#141d13',      // 카드 배경
+              cardHover: '#1a2618', // 호버 배경
+              border: '#23321f',    // 테두리
+              subtle: '#2d4128',    // 강조 테두리
+              text: '#e2ecd8',      // 기본 본문
+              muted: '#95aa8a',     // 설명 텍스트
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      scroll-behavior: smooth;
+    }
+    /* 야간 모드 부드러운 그라데이션 */
+    .hero-night-gradient {
+      background: radial-gradient(circle at 80% 20%, rgba(132, 204, 22, 0.12) 0%, transparent 60%),
+                  linear-gradient(180deg, #10180f 0%, #0c110b 100%);
+    }
+    .badge-glow {
+      box-shadow: 0 0 15px rgba(132, 204, 22, 0.2);
+    }
+    /* 스크롤바 커스텀 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0c110b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23321f;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4d7c0f;
+    }
+  </style>
+</head>
+<body class="bg-night-bg text-night-text antialiased min-h-screen flex flex-col selection:bg-limeTheme-500 selection:text-black">
+
+  <!-- 1. 상단 내비게이션 바 -->
+  <header class="sticky top-0 z-40 bg-night-bg/95 backdrop-blur border-b border-night-border transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- 실제 기관 공식 로고 + 포털 타이틀 -->
+      <a href="#" class="flex items-center space-x-3.5 group">
+        <!-- 공식 MAFRA 로고 (백그라운드 패치에 흰색 라운딩 처리로 야간모드에서도 선명하게 시인성 확보) -->
+        <div class="bg-white/95 px-2.5 py-1.5 rounded-xl border border-limeTheme-500/40 shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+          <img src="mafra_logo.svg" alt="농림축산식품부 공식 로고" class="h-8 sm:h-9 w-auto object-contain">
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30">대국민 알기 쉬운 포털</span>
+            <span class="inline-flex items-center gap-1 text-[11px] text-limeTheme-300">
+              <i class="fa-solid fa-moon text-xs"></i> 야간안심모드
+            </span>
+          </div>
+          <span class="text-base sm:text-lg font-bold text-slate-100 tracking-tight group-hover:text-limeTheme-400 transition">
+            농림축산식품부 <span class="text-xs sm:text-sm font-normal text-night-muted">주요 업무 안내</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- 데스크톱 메뉴 (6대 핵심업무 최우선 노출) -->
+      <nav class="hidden lg:flex items-center space-x-6 font-medium text-sm text-night-muted">
+        <a href="#core-works" class="text-limeTheme-400 font-semibold hover:text-limeTheme-300 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-star text-xs"></i> 6대 핵심 업무
+        </a>
+        <a href="#benefits" class="hover:text-limeTheme-400 transition">국민 일상 혜택</a>
+        <a href="#intro" class="hover:text-limeTheme-400 transition">농식품부 한눈에 보기</a>
+        <a href="#faq" class="hover:text-limeTheme-400 transition">자주 묻는 질문(FAQ)</a>
+        <a href="#quiz" class="px-3.5 py-1.5 rounded-full bg-limeTheme-500/10 border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black transition flex items-center gap-1.5 font-bold text-xs">
+          <i class="fa-solid fa-award"></i> 상식 퀴즈
+        </a>
+      </nav>
+
+      <!-- 모바일 메뉴 버튼 -->
+      <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-night-muted hover:text-white hover:bg-night-card focus:outline-none border border-night-border">
+        <i class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <!-- 모바일 드롭다운 -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-night-border bg-night-card px-4 pt-3 pb-5 space-y-3 font-medium text-sm text-night-muted">
+      <a href="#core-works" class="block py-1 text-limeTheme-400 font-bold" onclick="toggleMobileMenu()">⭐ 6대 핵심 업무</a>
+      <a href="#benefits" class="block py-1 hover:text-limeTheme-400" onclick="toggleMobileMenu()">국민 일상 혜택</a>
+      <a href="#intro" class="block py-1 hover:text-limeTheme-400" onclick="toggleMobileMenu()">농식품부 소개</a>
+      <a href="#faq" class="block py-1 hover:text-limeTheme-400" onclick="toggleMobileMenu()">자주 묻는 질문(FAQ)</a>
+      <a href="#quiz" class="inline-block mt-2 px-4 py-2 rounded-lg bg-limeTheme-500 text-black font-bold text-xs" onclick="toggleMobileMenu()">상식 퀴즈 풀기</a>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- 2. 히어로 배너 (연두색 네온 액센트 & 눈 편한 야간 테마) -->
+    <section class="hero-night-gradient border-b border-night-border py-14 sm:py-20 relative overflow-hidden">
+      <!-- 은은한 연두색 빛망울 장식 -->
+      <div class="absolute -right-16 top-0 w-96 h-96 rounded-full bg-limeTheme-500/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute left-10 bottom-0 w-80 h-80 rounded-full bg-limeTheme-600/5 blur-2xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+          <div class="max-w-2xl text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-limeTheme-500/10 border border-limeTheme-500/30 text-limeTheme-300 text-xs font-semibold mb-5">
+              <span class="w-2 h-2 rounded-full bg-limeTheme-400 animate-pulse"></span>
+              <span>국민 밥상 안심부터 첨단 생명산업까지</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-snug">
+              안전한 식탁, 스마트 농업<br>
+              <span class="text-limeTheme-400">농림축산식품부</span>가 함께합니다
+            </h2>
+            <p class="mt-4 text-night-muted text-sm sm:text-base leading-relaxed">
+              기후변화와 농촌 고령화 속에서도 주식인 쌀과 먹거리 안전을 든든히 지키고,<br class="hidden sm:inline">
+              인공지능(AI) 스마트팜, 동물 복지, 청년 창업까지 국민 모두의 삶을 윤택하게 만듭니다.
+            </p>
+
+            <!-- 간편 검색창 -->
+            <div class="mt-7 bg-night-card p-2 rounded-2xl border border-limeTheme-500/30 shadow-xl flex items-center max-w-xl mx-auto lg:mx-0 focus-within:border-limeTheme-400 transition">
+              <i class="fa-solid fa-magnifying-glass text-limeTheme-400 ml-3 mr-2"></i>
+              <input id="keywordSearch" type="text" placeholder="궁금한 업무를 검색하세요 (예: 쌀, 스마트팜, 동물복지, 청년농, 할인쿠폰)" 
+                     class="w-full bg-transparent text-white placeholder-night-muted focus:outline-none text-xs sm:text-sm px-2">
+              <button onclick="handleSearch()" class="bg-limeTheme-500 hover:bg-limeTheme-400 text-black font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition flex-shrink-0">
+                검색
+              </button>
+            </div>
+
+            <!-- 인기 검색 태그 -->
+            <div class="mt-3.5 flex flex-wrap gap-2 text-xs text-night-muted justify-center lg:justify-start">
+              <span>빠른 바로가기:</span>
+              <button onclick="quickFilter('스마트팜')" class="text-limeTheme-300 hover:underline">#스마트팜</button>
+              <button onclick="quickFilter('식량')" class="text-limeTheme-300 hover:underline">#식량안보</button>
+              <button onclick="quickFilter('동물복지')" class="text-limeTheme-300 hover:underline">#반려동물등록</button>
+              <button onclick="quickFilter('청년농')" class="text-limeTheme-300 hover:underline">#청년창업농</button>
+              <button onclick="quickFilter('물가')" class="text-limeTheme-300 hover:underline">#장바구니할인</button>
+            </div>
+          </div>
+
+          <!-- 우측 4대 핵심 지표 카드 (야간 모드 최적화) -->
+          <div class="grid grid-cols-2 gap-3.5 max-w-sm sm:max-w-md w-full">
+            <div class="bg-night-card/90 border border-night-border hover:border-limeTheme-500/50 p-4 rounded-2xl text-center transition group">
+              <div class="text-2xl text-limeTheme-400 mb-1.5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-wheat-awn"></i></div>
+              <div class="text-xl font-bold text-white">식량안보</div>
+              <div class="text-[11px] text-night-muted mt-0.5">쌀·밀·콩 생산 및 비축 강화</div>
+            </div>
+            <div class="bg-night-card/90 border border-night-border hover:border-limeTheme-500/50 p-4 rounded-2xl text-center transition group">
+              <div class="text-2xl text-limeTheme-400 mb-1.5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-microchip"></i></div>
+              <div class="text-xl font-bold text-white">스마트팜 AI</div>
+              <div class="text-[11px] text-night-muted mt-0.5">전국 혁신밸리 4개소 가동</div>
+            </div>
+            <div class="bg-night-card/90 border border-night-border hover:border-limeTheme-500/50 p-4 rounded-2xl text-center transition group">
+              <div class="text-2xl text-limeTheme-400 mb-1.5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-shield-cat"></i></div>
+              <div class="text-xl font-bold text-white">동물복지</div>
+              <div class="text-[11px] text-night-muted mt-0.5">진료비 투명화·유기 방지</div>
+            </div>
+            <div class="bg-night-card/90 border border-night-border hover:border-limeTheme-500/50 p-4 rounded-2xl text-center transition group">
+              <div class="text-2xl text-limeTheme-400 mb-1.5 group-hover:scale-110 transition-transform"><i class="fa-solid fa-tags"></i></div>
+              <div class="text-xl font-bold text-white">물가안정</div>
+              <div class="text-[11px] text-night-muted mt-0.5">농축산물 최대 30% 할인지원</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ★ 3. [최우선 배치 & 강조] 농림축산식품부 6대 핵심 업무 섹션 ★ -->
+    <section id="core-works" class="py-16 bg-night-bg relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- 섹션 헤더 (강조 뱃지 & 카테고리 필터) -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-night-border gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-limeTheme-500/10 text-limeTheme-400 text-xs font-bold border border-limeTheme-500/30 mb-2.5">
+              <i class="fa-solid fa-award"></i>
+              <span>CORE MISSIONS</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              농식품부 <span class="text-limeTheme-400 underline decoration-limeTheme-500/50 decoration-wavy underline-offset-8">6대 핵심 업무</span> 알아보기
+            </h3>
+            <p class="text-sm text-night-muted mt-2">일반 국민의 일상과 가장 밀접하게 연결된 핵심 정책 영역입니다.</p>
+          </div>
+
+          <!-- 카테고리 탭 버튼 -->
+          <div class="flex flex-wrap gap-2 text-xs font-semibold" id="categoryFilters">
+            <button onclick="filterWorks('all')" class="filter-btn active px-3.5 py-2 rounded-xl bg-limeTheme-500 text-black font-bold shadow transition">전체보기</button>
+            <button onclick="filterWorks('food')" class="filter-btn px-3.5 py-2 rounded-xl bg-night-card text-night-muted border border-night-border hover:border-limeTheme-500/50 hover:text-white transition">먹거리·식량</button>
+            <button onclick="filterWorks('smart')" class="filter-btn px-3.5 py-2 rounded-xl bg-night-card text-night-muted border border-night-border hover:border-limeTheme-500/50 hover:text-white transition">미래첨단농업</button>
+            <button onclick="filterWorks('animal')" class="filter-btn px-3.5 py-2 rounded-xl bg-night-card text-night-muted border border-night-border hover:border-limeTheme-500/50 hover:text-white transition">축산·동물복지</button>
+            <button onclick="filterWorks('rural')" class="filter-btn px-3.5 py-2 rounded-xl bg-night-card text-night-muted border border-night-border hover:border-limeTheme-500/50 hover:text-white transition">농촌생활·청년</button>
+          </div>
+        </div>
+
+        <!-- 6개 핵심 업무 카드 그리드 -->
+        <div id="worksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- 카드 1: 식량주권 & 안전한 먹거리 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="food" data-keywords="식량 쌀 밀 콩 원산지 gap 안전성 수급 물가">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-wheat-awn"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">먹거리·식량</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2 group-hover:text-limeTheme-300">
+                1. 안정적인 식량 공급 & 먹거리 안전
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                쌀 자급을 넘어 밀·콩 등 전략작물 생산을 확대하고, 친환경·GAP 인증 및 엄격한 원산지 단속으로 온 가족 식탁을 안전하게 지킵니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 전략작물직불제로 밀·콩·가루쌀 생산 확대</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 농산물우수관리(GAP) 및 친환경 인증 운영</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 농산물 원산지 허위표시 365일 상시 단속</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('food')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- 카드 2: 스마트팜 & 첨단 농업 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="smart" data-keywords="스마트팜 인공지능 빅데이터 ai 로봇 ict 첨단 온실 드론">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-microchip"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">미래첨단농업</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                2. AI·빅데이터 기반 스마트농업
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                인구 감소와 기후변화를 첨단 IT로 극복합니다. AI와 사물인터넷(IoT)이 온·습도를 자동 조절하는 스마트팜 혁신밸리와 자율주행 농기계를 보급합니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 스마트팜 혁신밸리 4개소(상주, 김제, 밀양, 고흥)</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 노지 스마트농업(자동 관수, 드론 방제) 보급</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 최적 재배 알고리즘 농가 무료 개방</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('smart')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- 카드 3: 동물복지 & 반려문화 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="animal" data-keywords="동물복지 반려동물 강아지 고양이 유기견 펫 동물등록제 동물보호 진료비">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-shield-cat"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">축산·동물복지</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                3. 동물복지 & 성숙한 반려문화 확산
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                1,500만 반려인 시대에 맞춰 동물등록제, 맹견사육허가제, 동물병원 진료비 사전고지를 시행하고 학대 방지와 동물복지 축산농장을 지원합니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 반려동물 의무등록 및 유기 방지 체계</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 동물병원 다빈도 진료비 사전고지 & 부가세 면제</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 쾌적한 사육환경의 동물복지축산농장 인증제</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('animal')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- 카드 4: K-푸드 & 푸드테크 신산업 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="food" data-keywords="k-food k푸드 푸드테크 수출 김치 라면 김 가공식품 유통">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-earth-americas"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">먹거리·식량</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                4. K-푸드 수출 지원 & 푸드테크 혁신
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                라면, 김치, 장류, 과일 등 농식품 수출 100억 불 시대를 견인하며, 대체육·조리로봇 등 미래 푸드테크 산업과 농산물 온라인 도매시장을 키웁니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 해외 물류·인증 지원 및 글로벌 K-푸드 마케팅</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 세포배양육·식물성 대체육 푸드테크 육성</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 농산물 온라인도매시장 개설로 유통마진 절감</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('kfood')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- 카드 5: 청년농업인 & 농촌 재생 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="rural" data-keywords="청년농 청년농업인 영농정착지원금 농지 농촌재생 귀농 귀촌">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-people-roof"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">농촌생활·청년</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                5. 청년농 육성 & 살고 싶은 농촌 공간 재생
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                젊은 인재들이 안심하고 정착하도록 정착지원금과 농지를 연결하고, 난개발을 정비하여 쾌적한 의료·문화 인프라를 갖춘 농촌을 만듭니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 청년창업농 정착지원금 (최대 3년 월 110만 원)</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 맞춤형 농지은행 장기 임대 및 주거단지 제공</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 「농촌공간재구조화법」에 따른 쾌적한 환경 조성</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('rural')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- 카드 6: 가축방역 & 장바구니 물가안정 -->
+          <div class="work-card bg-night-card rounded-2xl p-6 border border-night-border hover:border-limeTheme-500 hover:shadow-lg hover:shadow-limeTheme-500/5 hover:-translate-y-1 transition duration-200 flex flex-col justify-between" data-category="animal" data-keywords="가축방역 구제역 조류인플루엔자 ai 아프리카돼지열병 asf 물가 할인쿠폰 비축">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-12 h-12 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center text-2xl font-bold">
+                  <i class="fa-solid fa-stethoscope"></i>
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-night-bg text-limeTheme-300 border border-night-border">축산·물가안정</span>
+              </div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                6. 가축전염병 사전 방역 & 밥상 물가안정
+              </h4>
+              <p class="text-xs sm:text-sm text-night-muted leading-relaxed mb-4">
+                조류인플루엔자(AI), 아프리카돼지열병(ASF) 등을 ICT로 차단해 농가를 지키고, 장바구니 부담을 낮추는 농축산물 할인지원(20~30%)을 펼칩니다.
+              </p>
+              <div class="space-y-2 text-xs text-night-muted border-t border-night-border/70 pt-3 mb-6">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> GPS 축산차량 관제 및 24시간 특별방역 체계</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 명절·성수기 '농축산물 할인지원 쿠폰' 발행</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-limeTheme-400 text-[11px]"></i> 사과·배·채소 계약재배 및 비축 방출로 수급 안정</div>
+              </div>
+            </div>
+            <button onclick="openDetailModal('quarantine')" class="w-full py-2.5 rounded-xl border border-limeTheme-500/40 text-limeTheme-300 hover:bg-limeTheme-500 hover:text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+              <span>자세히 알아보기</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 국민 일상 체감 혜택 섹션 -->
+    <section id="benefits" class="py-16 bg-night-card border-y border-night-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-bold text-limeTheme-400 uppercase tracking-widest">LIFE BENEFITS</span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">"내 일상과 어떻게 이어져 있나요?"</h3>
+          <p class="mt-2 text-night-muted text-xs sm:text-sm">알고 있으면 생활비가 절약되고 일상이 편해지는 국민 체감 혜택 4가지</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- 혜택 1: 장보기 할인 -->
+          <div class="p-5 rounded-2xl bg-night-bg border border-night-border hover:border-limeTheme-500/60 transition group">
+            <div class="w-10 h-10 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center mb-3 text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h4 class="font-bold text-white text-base mb-1.5">농축산물 할인지원</h4>
+            <p class="text-xs text-night-muted leading-relaxed mb-3">
+              대형마트나 전통시장에서 사과, 배, 소·돼지고기, 채소 구매 시 최대 20~30% 현장 즉시 할인 혜택을 드립니다.
+            </p>
+            <span class="inline-block text-[11px] font-semibold text-limeTheme-300 bg-limeTheme-950/80 px-2.5 py-0.5 rounded border border-limeTheme-800">장바구니 물가 절감</span>
+          </div>
+
+          <!-- 혜택 2: 반려가족 의료비 -->
+          <div class="p-5 rounded-2xl bg-night-bg border border-night-border hover:border-limeTheme-500/60 transition group">
+            <div class="w-10 h-10 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center mb-3 text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-paw"></i>
+            </div>
+            <h4 class="font-bold text-white text-base mb-1.5">반려동물 진료비 투명화</h4>
+            <p class="text-xs text-night-muted leading-relaxed mb-3">
+              동물병원 주요 진료 항목의 사전 고지와 진료비 부가세 면제로 반려가족의 병원비 부담을 크게 덜어드립니다.
+            </p>
+            <span class="inline-block text-[11px] font-semibold text-limeTheme-300 bg-limeTheme-950/80 px-2.5 py-0.5 rounded border border-limeTheme-800">1,500만 반려가구</span>
+          </div>
+
+          <!-- 혜택 3: 주말 힐링 농촌여행 -->
+          <div class="p-5 rounded-2xl bg-night-bg border border-night-border hover:border-limeTheme-500/60 transition group">
+            <div class="w-10 h-10 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center mb-3 text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-campground"></i>
+            </div>
+            <h4 class="font-bold text-white text-base mb-1.5">촌캉스 & 농촌체험마을</h4>
+            <p class="text-xs text-night-muted leading-relaxed mb-3">
+              전국 농촌체험휴양마을에서 제철 특산물 수확과 팜스테이를 즐기도록 관광 할인 프로모션과 여행 정보를 제공합니다.
+            </p>
+            <span class="inline-block text-[11px] font-semibold text-limeTheme-300 bg-limeTheme-950/80 px-2.5 py-0.5 rounded border border-limeTheme-800">가족 힐링 여가</span>
+          </div>
+
+          <!-- 혜택 4: 청년 창농 -->
+          <div class="p-5 rounded-2xl bg-night-bg border border-night-border hover:border-limeTheme-500/60 transition group">
+            <div class="w-10 h-10 rounded-xl bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30 flex items-center justify-center mb-3 text-lg group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-seedling"></i>
+            </div>
+            <h4 class="font-bold text-white text-base mb-1.5">청년 창업농 정착지원</h4>
+            <p class="text-xs text-night-muted leading-relaxed mb-3">
+              만 40세 미만 청년에게 최대 3년간 월 110만 원 정착지원금, 임대형 스마트팜 우선 입주, 창업 자금을 원스톱 지원합니다.
+            </p>
+            <span class="inline-block text-[11px] font-semibold text-limeTheme-300 bg-limeTheme-950/80 px-2.5 py-0.5 rounded border border-limeTheme-800">청년 미래 설계</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 농식품부 기본 역할 소개 (한눈에 보는 MAFRA) -->
+    <section id="intro" class="py-16 bg-night-bg border-b border-night-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs font-bold text-limeTheme-400 uppercase tracking-widest">ABOUT MAFRA</span>
+          <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">농림축산식품부는 어떤 역할을 하나요?</h3>
+          <p class="mt-3 text-night-muted text-xs sm:text-sm leading-relaxed">
+            농림축산식품부(MAFRA)는 농업 생산자뿐만 아니라 5천만 국민 전체의 먹거리 안전, 동식물 건강, 농촌 생태계를 종합 관리하는 대한민국 정부 중앙부처입니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-night-card border border-night-border rounded-2xl p-6 hover:border-limeTheme-500/50 transition">
+            <div class="text-limeTheme-400 text-2xl mb-3"><i class="fa-solid fa-bowl-rice"></i></div>
+            <h4 class="text-base font-bold text-white mb-1.5">국민 먹거리의 안정적 확보</h4>
+            <p class="text-xs text-night-muted leading-relaxed">
+              기후변화와 국제 공급망 충격에도 쌀, 콩, 밀 등 필수 식량을 공급하고 식품 안전성을 철저히 지킵니다.
+            </p>
+          </div>
+
+          <div class="bg-night-card border border-night-border rounded-2xl p-6 hover:border-limeTheme-500/50 transition">
+            <div class="text-limeTheme-400 text-2xl mb-3"><i class="fa-solid fa-robot"></i></div>
+            <h4 class="text-base font-bold text-white mb-1.5">농식품 미래 신산업 육성</h4>
+            <p class="text-xs text-night-muted leading-relaxed">
+              빅데이터 스마트팜, 대체식품·조리로봇 등 푸드테크를 육성하고 K-Food 수출 전진기지 역할을 수행합니다.
+            </p>
+          </div>
+
+          <div class="bg-night-card border border-night-border rounded-2xl p-6 hover:border-limeTheme-500/50 transition">
+            <div class="text-limeTheme-400 text-2xl mb-3"><i class="fa-solid fa-house-chimney-window"></i></div>
+            <h4 class="text-base font-bold text-white mb-1.5">살기 좋은 농촌 & 동물 복지</h4>
+            <p class="text-xs text-night-muted leading-relaxed">
+              쾌적한 주거 인프라를 조성해 지방소멸을 막고, 사람과 동물이 공존하는 따뜻한 생명 윤리를 정착시킵니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 재미있는 O/X 상식 퀴즈 (참여형 코너) -->
+    <section id="quiz" class="py-16 bg-night-card/70 border-b border-night-border">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-limeTheme-500/10 text-limeTheme-300 text-xs font-semibold border border-limeTheme-500/30 mb-2">
+            <i class="fa-solid fa-lightbulb"></i> 재미있는 농정 상식 퀴즈
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-bold text-white">OX로 배우는 알기 쉬운 농식품부 이야기</h3>
+          <p class="text-night-muted text-xs sm:text-sm mt-2">퀴즈를 풀면서 농림축산식품부의 다양한 역할을 확인해보세요!</p>
+        </div>
+
+        <div class="bg-night-bg rounded-2xl p-6 sm:p-8 border border-limeTheme-500/30 shadow-2xl">
+          <div id="quizContainer">
+            <div class="flex items-center justify-between text-xs font-semibold mb-4">
+              <span id="quizStepText" class="text-limeTheme-400 font-bold">문제 1 / 3</span>
+              <span id="quizScoreText" class="text-yellow-400 font-bold">점수: 0점</span>
+            </div>
+            <h4 id="quizQuestion" class="text-base sm:text-lg font-bold text-white leading-relaxed mb-6">
+              Q1. 농림축산식품부는 농사짓는 농업인만을 위한 지원 업무만 담당한다?
+            </h4>
+            <div class="grid grid-cols-2 gap-4">
+              <button onclick="answerQuiz(true)" class="py-3.5 rounded-xl bg-night-card hover:bg-limeTheme-500 hover:text-black border border-night-border hover:border-limeTheme-400 font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition active:scale-95 text-white">
+                <i class="fa-solid fa-circle-o text-limeTheme-400"></i> 그렇다 (O)
+              </button>
+              <button onclick="answerQuiz(false)" class="py-3.5 rounded-xl bg-night-card hover:bg-limeTheme-500 hover:text-black border border-night-border hover:border-limeTheme-400 font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition active:scale-95 text-white">
+                <i class="fa-solid fa-xmark text-rose-400"></i> 아니다 (X)
+              </button>
+            </div>
+            <div id="quizFeedback" class="mt-5 hidden p-4 rounded-xl text-xs sm:text-sm leading-relaxed"></div>
+            <div id="quizNextBtnContainer" class="mt-4 hidden text-right">
+              <button onclick="nextQuiz()" class="px-5 py-2.5 rounded-xl bg-limeTheme-500 text-black font-bold text-xs sm:text-sm hover:bg-limeTheme-400 transition">
+                다음 문제 <i class="fa-solid fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 자주 묻는 질문 (FAQ) -->
+    <section id="faq" class="py-16 bg-night-bg">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <span class="text-xs font-bold text-limeTheme-400 uppercase tracking-widest">FAQ</span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">자주 묻는 질문</h3>
+          <p class="text-xs sm:text-sm text-night-muted mt-2">일반 국민들이 농식품부에 대해 가장 많이 궁금해하는 질문들입니다.</p>
+        </div>
+
+        <div class="space-y-3" id="faqAccordion">
+          <!-- FAQ 1 -->
+          <div class="border border-night-border bg-night-card rounded-xl overflow-hidden transition">
+            <button onclick="toggleFaq(1)" class="w-full text-left px-5 py-4 flex items-center justify-between font-bold text-sm sm:text-base text-slate-100 hover:text-limeTheme-400">
+              <span class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-question text-limeTheme-400"></i>
+                반려견 동물등록은 어떻게 하고, 안 하면 과태료가 있나요?
+              </span>
+              <i id="faqIcon-1" class="fa-solid fa-chevron-down text-night-muted text-xs transition-transform duration-200"></i>
+            </button>
+            <div id="faqContent-1" class="hidden px-5 pb-5 text-xs sm:text-sm text-night-muted leading-relaxed border-t border-night-border pt-3">
+              생후 2개월 이상의 반려견은 의무 등록 대상입니다. 시·군·구청이나 등록대행 동물병원에서 무선식별장치(내장형 마이크로칩 또는 외장형 무선식별장치)로 등록할 수 있습니다. 미등록 시 동물보호법에 따라 최대 100만 원 이하의 과태료가 부과될 수 있습니다.
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="border border-night-border bg-night-card rounded-xl overflow-hidden transition">
+            <button onclick="toggleFaq(2)" class="w-full text-left px-5 py-4 flex items-center justify-between font-bold text-sm sm:text-base text-slate-100 hover:text-limeTheme-400">
+              <span class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-question text-limeTheme-400"></i>
+                마트 농축산물 할인쿠폰은 어디서 어떻게 발급받나요?
+              </span>
+              <i id="faqIcon-2" class="fa-solid fa-chevron-down text-night-muted text-xs transition-transform duration-200"></i>
+            </button>
+            <div id="faqContent-2" class="hidden px-5 pb-5 text-xs sm:text-sm text-night-muted leading-relaxed border-t border-night-border pt-3">
+              별도의 번거로운 신청 없이, 참여 대형마트·중소마트 및 전통시장에서 지정 행사 품목(사과, 배, 소·돼지고기, 채소류 등) 결제 시 자동으로 20~30% 할인이 적용됩니다. 전통시장은 제로페이 농할상품권(선할인)이나 현장 온누리상품권 환급 행사를 통해 이용하실 수 있습니다.
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="border border-night-border bg-night-card rounded-xl overflow-hidden transition">
+            <button onclick="toggleFaq(3)" class="w-full text-left px-5 py-4 flex items-center justify-between font-bold text-sm sm:text-base text-slate-100 hover:text-limeTheme-400">
+              <span class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-question text-limeTheme-400"></i>
+                농사를 지어본 적 없는 청년도 영농정착 지원을 받을 수 있나요?
+              </span>
+              <i id="faqIcon-3" class="fa-solid fa-chevron-down text-night-muted text-xs transition-transform duration-200"></i>
+            </button>
+            <div id="faqContent-3" class="hidden px-5 pb-5 text-xs sm:text-sm text-night-muted leading-relaxed border-t border-night-border pt-3">
+              네, 농림축산식품부의 '청년후계농 영농정착지원사업'은 비농업인 출신 청년(만 18세 이상 ~ 만 40세 미만)도 열정과 사업계획서만 있으면 신청할 수 있습니다. 선발 시 스마트팜 청년창업 보육센터 교육, 최대 3년간 월 최대 110만 원의 영농정착지원금, 창업 자금 융자, 임대 농지 우선 알선 혜택을 제공합니다.
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="border border-night-border bg-night-card rounded-xl overflow-hidden transition">
+            <button onclick="toggleFaq(4)" class="w-full text-left px-5 py-4 flex items-center justify-between font-bold text-sm sm:text-base text-slate-100 hover:text-limeTheme-400">
+              <span class="flex items-center gap-2.5">
+                <i class="fa-solid fa-circle-question text-limeTheme-400"></i>
+                식당이나 식자재의 원산지 거짓 표시는 어디로 신고하나요?
+              </span>
+              <i id="faqIcon-4" class="fa-solid fa-chevron-down text-night-muted text-xs transition-transform duration-200"></i>
+            </button>
+            <div id="faqContent-4" class="hidden px-5 pb-5 text-xs sm:text-sm text-night-muted leading-relaxed border-t border-night-border pt-3">
+              농림축산식품부 산하 '국립농산물품질관리원(농관원)' 부정유통신고센터(전화 1588-8112) 또는 농관원 누리집을 통해 신고할 수 있습니다. 위반 사실이 확인되면 신고자에게 최고 1,000만 원까지의 포상금이 지급됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. 정부 공식 포털 바로가기 링크 배너 -->
+    <section class="py-12 bg-night-card border-t border-night-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-xs font-bold text-night-muted uppercase tracking-wider mb-6 text-center">관련 공식 시스템 바로가기</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 text-center">
+          <a href="https://www.mafra.go.kr" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-building-columns text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">농식품부 공식</div>
+            <div class="text-[11px] text-night-muted">mafra.go.kr</div>
+          </a>
+          <a href="https://www.animal.go.kr" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-dog text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">국가동물보호정보</div>
+            <div class="text-[11px] text-night-muted">animal.go.kr</div>
+          </a>
+          <a href="https://www.smartfarmkorea.net" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-microchip text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">스마트팜 코리아</div>
+            <div class="text-[11px] text-night-muted">smartfarmkorea.net</div>
+          </a>
+          <a href="https://www.naqs.go.kr" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-magnifying-glass-chart text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">농산물품질관리원</div>
+            <div class="text-[11px] text-night-muted">naqs.go.kr</div>
+          </a>
+          <a href="https://www.kamis.or.kr" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-chart-pie text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">농산물 유통정보</div>
+            <div class="text-[11px] text-night-muted">kamis.or.kr</div>
+          </a>
+          <a href="https://www.welchon.com" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl border border-night-border hover:border-limeTheme-500 bg-night-bg transition group">
+            <i class="fa-solid fa-tree text-limeTheme-400 text-xl mb-1.5 group-hover:scale-110 transition-transform"></i>
+            <div class="text-xs font-bold text-white">웰촌 (농촌여행)</div>
+            <div class="text-[11px] text-night-muted">welchon.com</div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 9. 푸터 -->
+  <footer class="bg-black/95 text-night-muted text-xs py-8 border-t border-night-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="bg-white/95 px-2 py-1 rounded-lg">
+            <img src="mafra_logo.svg" alt="농림축산식품부" class="h-6 w-auto">
+          </div>
+          <div>
+            <div class="text-white font-bold text-sm">농림축산식품부 국민 친화 안내 포털</div>
+            <div class="text-night-muted text-[11px]">농촌과 도시가 상생하고 국민 모두가 행복한 먹거리 대한민국</div>
+          </div>
+        </div>
+        <div class="text-center md:text-right text-night-muted leading-relaxed">
+          <p>정부세종청사 5동 농림축산식품부 | 대표전화 110 (정부민원콜센터), 1577-1020 (농식품부콜센터)</p>
+          <p class="text-[11px] text-slate-500 mt-1">※ 본 포털은 대한민국 정부상징 공식 로고를 정식 준용하여 제작된 대국민 인터랙티브 정책 안내 포털입니다.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 10. 업무 상세 모달창 (야간 테마 & 연두색 포인트) -->
+  <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-night-card border border-limeTheme-500/40 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDetailModal()" class="absolute top-5 right-5 text-night-muted hover:text-white text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3.5 mb-5">
+        <span id="modalBadgeIcon" class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold bg-limeTheme-500/10 text-limeTheme-400 border border-limeTheme-500/30"></span>
+        <div>
+          <span id="modalCategory" class="text-xs font-bold uppercase tracking-wider text-limeTheme-400"></span>
+          <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white"></h3>
+        </div>
+      </div>
+
+      <div class="text-night-text text-sm leading-relaxed mb-6 space-y-4">
+        <div id="modalSummary" class="p-4 rounded-xl bg-night-bg border border-night-border font-medium text-slate-200"></div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-2 flex items-center gap-1.5 text-sm sm:text-base">
+            <i class="fa-solid fa-bullseye text-limeTheme-400"></i> 왜 중요한가요? (배경 및 필요성)
+          </h4>
+          <p id="modalWhy" class="text-night-muted text-xs sm:text-sm leading-relaxed pl-1"></p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-2 flex items-center gap-1.5 text-sm sm:text-base">
+            <i class="fa-solid fa-list-check text-limeTheme-400"></i> 중점 추진 과제
+          </h4>
+          <ul id="modalList" class="space-y-2 text-xs sm:text-sm text-slate-300 pl-1"></ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-limeTheme-950/40 border border-limeTheme-500/30">
+          <h4 class="font-bold text-limeTheme-300 text-xs sm:text-sm mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-gift text-limeTheme-400"></i> 국민이 직접 느끼는 체감 변화
+          </h4>
+          <p id="modalImpact" class="text-limeTheme-200 text-xs leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-3 border-t border-night-border">
+        <button onclick="closeDetailModal()" class="px-5 py-2.5 rounded-xl bg-night-bg hover:bg-night-border border border-night-border text-white font-semibold text-xs sm:text-sm transition">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript 상호작용 스크립트 -->
+  <script>
+    // 1. 상세 모달 데이터베이스
+    const modalData = {
+      food: {
+        category: '먹거리·식량안보',
+        iconClass: 'fa-wheat-awn',
+        title: '안정적인 식량 공급 & 먹거리 안전 관리',
+        summary: '기후위기와 국제 곡물 불안정 속에서도 국민의 기본 주식인 쌀, 밀, 콩의 자급률을 높이고, 농장에서 식탁까지의 유통 전 과정을 안전하게 감독합니다.',
+        why: '우리나라는 쌀 자급률은 양호하지만 밀(1%대), 콩(20%대) 등 전체 곡물 자급률은 약 20% 수준에 머물러 있습니다. 기후 이상과 공급망 위기에도 흔들리지 않는 국가 식량주권을 지키는 것이 농식품부의 첫 번째 사명입니다.',
+        tasks: [
+          '전략작물직불제: 논에 밥쌀 대신 가루쌀, 논콩, 밀을 재배하는 농가에 직불금을 지급하여 자급률 향상 유도',
+          '농산물우수관리(GAP) & 친환경 인증: 잔류농약, 중금속, 유해미생물을 기준치 이하로 엄격하게 관리',
+          '농식품 원산지 표시 단속: 수입산을 국산으로 둔갑시키는 부정유통을 365일 암행 단속'
+        ],
+        impact: '동네 마트나 온라인 장보기, 식당에서 안심하고 국산 원산지와 GAP 인증 농산물을 믿고 구매할 수 있습니다.'
+      },
+      smart: {
+        category: '미래첨단농업',
+        iconClass: 'fa-microchip',
+        title: '스마트팜과 AI 미래농업 대전환',
+        summary: '전통적인 흙과 땀에 의존하던 농업을 빅데이터, 사물인터넷(IoT), 로봇이 결합된 고부가가치 첨단 지식 생명산업으로 탈바꿈시킵니다.',
+        why: '농촌 인구의 고령화와 일손 부족, 이상기후로 인한 가뭄·폭우에 대응하기 위해 사계절 내내 최적의 생육 환경을 자동으로 제어하는 스마트 농업 기술이 필수적입니다.',
+        tasks: [
+          '전국 4대 스마트팜 혁신밸리(상주·김제·밀양·고흥) 운영: 청년 무료 교육, 첨단 임대온실 원스톱 제공',
+          '노지 스마트팜 확대: 벼·양파·마늘 등 노지 작물에도 인공지능 센서 및 드론 자동 방제 기술 적용',
+          '농업 빅데이터 개방: 농가 생육 환경 데이터를 표준화하여 누구나 최적 수확량을 낼 수 있도록 AI 알고리즘 지원'
+        ],
+        impact: '사계절 내내 기후변화 걱정 없이 신선하고 당도 높은 농산물을 합리적인 가격에 맛볼 수 있습니다.'
+      },
+      animal: {
+        category: '축산·동물복지',
+        iconClass: 'fa-shield-cat',
+        title: '성숙한 동물복지 & 사람과 동물의 공존',
+        summary: '반려동물을 가족으로 여기는 시대적 흐름에 맞춰 동물 학대를 방지하고 진료비 투명화 및 농장동물의 복지 수준을 함께 높여갑니다.',
+        why: '반려가구 600만 시대를 맞아 동물 유기, 진료비 분쟁, 맹견 안전사고 등 갈등을 예방하고 지속가능한 생명 존중 문화를 제도적으로 정착시키기 위함입니다.',
+        tasks: [
+          '반려동물 의무등록제 및 맹견사육허가제: 유기동물 발생 억제 및 공공장소 펫티켓 확립',
+          '동물병원 진료비 투명화: 주요 다빈도 진료비(초진, 재진, 백신 등) 사전고지 의무화 및 부가세 면제 품목 확대',
+          '동물복지축산농장 인증제: 좁은 케이지 대신 자연스러운 본능을 유지할 수 있는 가축 사육 환경 확대'
+        ],
+        impact: '반려동물 양육 시 예상치 못한 병원비 부담을 미리 파악할 수 있고, 윤리적으로 생산된 동물복지 인증 계란과 고기를 선택할 수 있습니다.'
+      },
+      kfood: {
+        category: '먹거리·식량',
+        iconClass: 'fa-earth-americas',
+        title: 'K-푸드 수출 100억 불 & 푸드테크 신산업',
+        summary: '라면, 김치, 장류, 과일 등 우리 농식품을 전 세계인의 식탁에 올리고, 조리로봇과 식물성 대체식품 등 미래 먹거리 혁신을 이끕니다.',
+        why: '농식품 수출은 국내 농가 소득 증대와 국가 브랜드 파워를 높이는 결정적 통로이며, 푸드테크는 탄소 배출과 환경오염을 줄이는 차세대 친환경 산업입니다.',
+        tasks: [
+          '글로벌 K-Food 홍보 및 냉장·냉동 물류망 지원: 미국·유럽·동남아·중동 등 신흥 시장 개척',
+          '푸드테크 10대 핵심분야 R&D: 식물성 대체육, 업사이클링 식품, 3D 푸드프린팅, 식품 조리로봇 기술 투자',
+          '농산물 온라인도매시장 개설: 복잡한 3~4단계 유통구조를 온라인 직거래로 단축해 생산자-소비자 상생'
+        ],
+        impact: '해외 어디서나 자랑스러운 우리 농식품을 만날 수 있으며, 유통거품이 빠진 신선한 식재료를 장바구니에 담을 수 있습니다.'
+      },
+      rural: {
+        category: '농촌생활·청년',
+        iconClass: 'fa-people-roof',
+        title: '청년이 돌아오는 농촌 & 살고 싶은 공간 재생',
+        summary: '지방소멸 위기 속에서 열정 넘치는 청년들이 농촌에서 꿈을 펼치도록 영농자금과 농지를 연결하고, 농촌 마을을 쾌적한 쉼터이자 일터로 재정비합니다.',
+        why: '농촌이 무너지면 국가의 식량 기지와 국토의 환경적 가치가 훼손됩니다. 쾌적한 주거환경과 청년 세대의 유입이 농촌의 지속가능성을 보장하는 핵심 열쇠입니다.',
+        tasks: [
+          '청년창업농 영농정착지원: 선발된 청년농에게 최대 3년간 월 90~110만 원 지원 및 5억 원 한도 창업융자',
+          '맞춤형 농지 지원: 한국농어촌공사 농지은행을 통해 청년에게 우수 농지를 장기 임대 지원',
+          '농촌 공간 재생 프로젝트: 축사나 공장 난개발을 정비하고 의료·돌봄·문화 복합센터와 청년 임대주택 건립'
+        ],
+        impact: '도시민에게는 주말 힐링과 여가를 즐길 수 있는 아름다운 촌캉스 공간이 생기고, 청년들에게는 새로운 창업 기회가 열립니다.'
+      },
+      quarantine: {
+        category: '축산·물가안정',
+        iconClass: 'fa-stethoscope',
+        title: '철통 가축방역 & 장바구니 물가안정',
+        summary: '조류인플루엔자(AI), 구제역 등 가축전염병의 확산을 빈틈없이 막아 농가의 피해를 방지하고, 명절이나 성수기 농축산물 할인쿠폰으로 물가를 관리합니다.',
+        why: '가축 전염병이 발생하면 계란, 닭고기, 돼지고기 공급이 줄어들어 가격이 급등합니다. 과학적인 선제 방역은 농가 생계와 서민 밥상 물가 모두를 지키는 방패입니다.',
+        tasks: [
+          '가축전염병 특별방역기간 운영: 철새도래지 소독, 축산차량 GPS 추적 및 거점소독시설 24시간 가동',
+          '농축산물 할인지원(농할쿠폰): 사과, 배, 소고기, 제철 채소 등 국민 장바구니 필수 품목 20~30% 할인 지원',
+          '계약재배 & 정부 비축물량 방출: 명절 및 기상이변 시 비축 농산물을 신속 방출하여 가격 급등 방지'
+        ],
+        impact: '계란 파동이나 고기값 폭등 없이 안정된 가격으로 장을 볼 수 있고, 정부 할인쿠폰을 통해 직접적인 가계 절약 효과를 누립니다.'
+      }
+    };
+
+    // 2. 모달 열기/닫기
+    function openDetailModal(key) {
+      const data = modalData[key];
+      if (!data) return;
+
+      document.getElementById('modalCategory').textContent = data.category;
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalSummary').textContent = data.summary;
+      document.getElementById('modalWhy').textContent = data.why;
+      document.getElementById('modalImpact').textContent = data.impact;
+
+      const iconBox = document.getElementById('modalBadgeIcon');
+      iconBox.innerHTML = `<i class="fa-solid ${data.iconClass}"></i>`;
+
+      const listContainer = document.getElementById('modalList');
+      listContainer.innerHTML = '';
+      data.tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2';
+        li.innerHTML = `<i class="fa-solid fa-circle-check text-limeTheme-400 mt-1 flex-shrink-0 text-xs"></i><span>${task}</span>`;
+        listContainer.appendChild(li);
+      });
+
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+      if (e.target === this) closeDetailModal();
+    });
+
+    // 3. 필터링 기능
+    function filterWorks(category) {
+      const cards = document.querySelectorAll('.work-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-limeTheme-500', 'text-black', 'font-bold', 'shadow');
+        btn.classList.add('bg-night-card', 'text-night-muted', 'border', 'border-night-border');
+      });
+      event.target.classList.remove('bg-night-card', 'text-night-muted', 'border-night-border');
+      event.target.classList.add('bg-limeTheme-500', 'text-black', 'font-bold', 'shadow');
+
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // 4. 검색창 기능
+    function handleSearch() {
+      const query = document.getElementById('keywordSearch').value.trim().toLowerCase();
+      if (!query) {
+        alert('검색어를 입력해주세요! (예: 쌀, 스마트팜, 동물복지, 청년농)');
+        return;
+      }
+      quickFilter(query);
+      document.getElementById('core-works').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('keywordSearch').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') handleSearch();
+    });
+
+    function quickFilter(term) {
+      const cards = document.querySelectorAll('.work-card');
+      let found = 0;
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const keywords = card.getAttribute('data-keywords') || '';
+        if (text.includes(term.toLowerCase()) || keywords.includes(term.toLowerCase())) {
+          card.classList.remove('hidden');
+          found++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (found === 0) {
+        alert(`'${term}'에 대한 검색 결과가 없습니다. 전체 목록을 표시합니다.`);
+        cards.forEach(c => c.classList.remove('hidden'));
+      }
+    }
+
+    // 5. FAQ 토글 아코디언
+    function toggleFaq(index) {
+      const content = document.getElementById(`faqContent-${index}`);
+      const icon = document.getElementById(`faqIcon-${index}`);
+
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // 6. 상식 퀴즈 로직
+    const quizList = [
+      {
+        question: "Q1. 농림축산식품부는 농사짓는 농업인만을 위한 지원 업무만 담당한다?",
+        answer: false,
+        explanation: "정답은 X입니다! 농식품부는 농업인뿐만 아니라 전 국민의 먹거리 안전, 장바구니 물가 관리, 반려동물 복지, K-푸드 수출, 농촌 여행 등 대한민국 국민 모두의 일상과 관련된 핵심 업무를 총괄합니다."
+      },
+      {
+        question: "Q2. 생후 2개월 이상의 반려견은 지자체에 동물등록을 의무적으로 해야 한다?",
+        answer: true,
+        explanation: "정답은 O입니다! 동물보호법에 따라 생후 2개월 이상의 반려견은 무선식별장치를 통해 반드시 동물등록을 마쳐야 유실·유기를 방지할 수 있습니다."
+      },
+      {
+        question: "Q3. 스마트팜(Smart Farm)은 농업인이 일일이 온실에 상주하지 않아도 AI와 센서가 온도·습도·영양분을 자동 조절할 수 있다?",
+        answer: true,
+        explanation: "정답은 O입니다! ICT 사물인터넷과 인공지능 빅데이터를 활용하여 스마트폰이나 PC로 언제 어디서나 최적의 작물 재배 환경을 제어할 수 있습니다."
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+
+    function answerQuiz(userChoice) {
+      const current = quizList[currentQuizIndex];
+      const feedback = document.getElementById('quizFeedback');
+      const nextBtnContainer = document.getElementById('quizNextBtnContainer');
+
+      if (userChoice === current.answer) {
+        quizScore += 33;
+        if (currentQuizIndex === quizList.length - 1) quizScore = 100;
+        feedback.className = "mt-5 p-4 rounded-xl text-xs sm:text-sm leading-relaxed bg-limeTheme-950/80 border border-limeTheme-500/50 text-limeTheme-200";
+        feedback.innerHTML = `<span class="font-bold text-base text-limeTheme-400">🎉 정답입니다!</span><br><br>${current.explanation}`;
+      } else {
+        feedback.className = "mt-5 p-4 rounded-xl text-xs sm:text-sm leading-relaxed bg-rose-950/70 border border-rose-500/50 text-rose-200";
+        feedback.innerHTML = `<span class="font-bold text-base text-rose-300">아쉽지만 오답입니다!</span><br><br>${current.explanation}`;
+      }
+
+      document.getElementById('quizScoreText').textContent = `점수: ${quizScore}점`;
+      feedback.classList.remove('hidden');
+      nextBtnContainer.classList.remove('hidden');
+    }
+
+    function nextQuiz() {
+      currentQuizIndex++;
+      const feedback = document.getElementById('quizFeedback');
+      const nextBtnContainer = document.getElementById('quizNextBtnContainer');
+      feedback.classList.add('hidden');
+      nextBtnContainer.classList.add('hidden');
+
+      if (currentQuizIndex < quizList.length) {
+        document.getElementById('quizStepText').textContent = `문제 ${currentQuizIndex + 1} / ${quizList.length}`;
+        document.getElementById('quizQuestion').textContent = quizList[currentQuizIndex].question;
+      } else {
+        const container = document.getElementById('quizContainer');
+        container.innerHTML = `
+          <div class="text-center py-6">
+            <div class="text-4xl text-limeTheme-400 mb-3"><i class="fa-solid fa-trophy"></i></div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white mb-2">퀴즈 완료! 최종 점수: ${quizScore}점</h4>
+            <p class="text-night-muted text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
+              농림축산식품부의 역할이 더 친근하게 와닿으셨나요? 대한민국 국민의 안전한 식탁과 푸른 미래를 위해 늘 함께합니다!
+            </p>
+            <button onclick="location.reload()" class="mt-6 px-6 py-2.5 rounded-xl bg-limeTheme-500 hover:bg-limeTheme-400 text-black font-bold text-xs sm:text-sm transition">
+              다시 풀어보기
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // 7. 모바일 메뉴 토글
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    });
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
